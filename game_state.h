@@ -13,5 +13,7 @@ public:
  
   virtual void on_active() {}
   virtual void on_deactive() {}
+
+  virtual void on_input(int input) {}
 };
 
