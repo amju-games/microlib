@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include "game_state.h"
 #include "game_object.h"
 
@@ -18,6 +19,12 @@ public:
   // Game States
   game_state* get_game_state(); 
   void set_game_state(game_state* gs);
+
+  template <class GS> 
+  void set_game_state(std::unique_ptr<GS>& gs)
+  {
+    set_game_state(gs.get());
+  }
 
   // Game Objects
   void add_game_object(game_object* object);
