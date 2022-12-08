@@ -1,16 +1,15 @@
 #include <iostream>
-#include "bass.h"
-#include "BassSoundPlayer.h"
-//#include "StringUtils.h"
+#include "bass_2.3.h"
+#include "sound_player_bass23.h"
 
 #define _DEBUG
 
-void ReportError(const std::string& s)
+void report_error(const std::string& s)
 {
   std::cout << s << "\n";
 }
 
-BassSoundPlayer::BassSoundPlayer()
+sound_player_bass23::sound_player_bass23()
 {
   m_chan = (DWORD)-1; 
 
@@ -26,15 +25,15 @@ std::cout << "BASS version: " << ver << "\n";
     std::cout << "BASS: Can't initialize device\n";
   }
 
-  SetSongMaxVolume(1.0f);
+  set_song_max_volume(1.0f);
 }
 
-BassSoundPlayer::~BassSoundPlayer()
+sound_player_bass23::~sound_player_bass23()
 {
   BASS_Free();
 }
 
-bool BassSoundPlayer::PlayWav(const std::string& wavFile, bool loop)
+bool sound_player_bass23::play_wav(const std::string& wavFile, bool loop)
 {
   // max no of simultaneous playbacks (of same wav ? or all wavs ?)
   static const int MAX_PLAYBACKS = 6;
@@ -60,7 +59,7 @@ bool BassSoundPlayer::PlayWav(const std::string& wavFile, bool loop)
   {
     std::string s = "BASS: Wav: Failed to load sample: ";
     s += wavFile;
-    ReportError(s);
+    report_error(s);
     return false;
   } 
   HCHANNEL hc = BASS_SampleGetChannel(hs, FALSE);
@@ -68,7 +67,7 @@ bool BassSoundPlayer::PlayWav(const std::string& wavFile, bool loop)
   {
     std::string s = "BASS: Wav: Failed to get sample channel: ";
     s += wavFile;
-    ReportError(s);
+    report_error(s);
     return false;
   }
 
@@ -81,7 +80,7 @@ bool BassSoundPlayer::PlayWav(const std::string& wavFile, bool loop)
   return true;
 }
 
-bool BassSoundPlayer::PlaySong(const std::string& songFile)
+bool sound_player_bass23::play_song(const std::string& songFile)
 {
   // Play song even if song vol is currently zero - it may be turned up.
 
@@ -104,7 +103,7 @@ std::cout << "BASS: playing new song: " << songFile.c_str() << "\n";
 	  int errCode = BASS_ErrorGetCode();
 	  s += " Error code: ";
 	  s += std::to_string(errCode);
-      ReportError(s);
+      report_error(s);
       return false;
     }
 
@@ -121,7 +120,7 @@ std::cout << "BASS: new song: " << songFile.c_str() << " chan: " << m_chan << "\
   return true;
 }
 
-void BassSoundPlayer::StopSong()
+void sound_player_bass23::stop_song()
 {
   if (m_chan == -1)
   {
@@ -134,11 +133,11 @@ std::cout << "BASS: Stopping song on channel " << m_chan << "\n";
   BASS_ChannelStop(m_chan); 
 }
 
-void BassSoundPlayer::Update()
+void sound_player_bass23::update()
 {
 }
 
-void BassSoundPlayer::SetSongMaxVolume(float f)
+void sound_player_bass23::set_song_max_volume(float f)
 {
   if (m_chan == -1)
   {
