@@ -5,10 +5,14 @@
 
 void game_object::update(float dt)
 {
+  // Update position and velocity
   vec2 old = m_vel;
   m_vel += m_acc * dt;
   vec2 tr = (old + m_vel) * (dt * 0.5f); 
   m_pos += tr;
+
+  // Update bounding box
+  m_aabb += tr;
 }
 
 void game_object::set_pos(const vec2& v)
