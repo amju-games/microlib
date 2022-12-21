@@ -1,10 +1,13 @@
 // "microlib" minimal C++ game utility library
 // (c) Copyright 2017 Jason Colman
 
+#define STATE_DEBUG
+
+#ifdef STATE_DEBUG
+#include <iostream>
+#endif
 #include "game.h"
 #include "message_queue.h"
-
-//#define STATE_DEBUG
 
 void game::update(float dt)
 {
