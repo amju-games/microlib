@@ -10,10 +10,6 @@ void game::update(float dt)
 {
   update_state();
 
-//  TheTimer::Instance()->Update();
-//  TheEventPoller::Instance()->Update();
-//  TheMessageQueue::Instance()->Update();
-
   get_game_state()->update(dt);
 }
 
