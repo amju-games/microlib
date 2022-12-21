@@ -10,8 +10,11 @@
 class game_object
 {
 public:
-  game_object() = default;
+  game_object();
   virtual ~game_object() = default; 
+
+  void set_id(int id) { m_id = id; }
+  int get_id() const { return m_id; }
 
   virtual void update(float dt);
 
@@ -33,9 +36,4 @@ protected:
   vec2 m_acc;
   aabb m_aabb;
 };
-
-typedef game_object* p_game_object;
-  
-typedef std::vector<p_game_object> game_objects;
-
 

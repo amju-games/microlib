@@ -3,6 +3,12 @@
 
 #include "game_object.h"
 
+game_object::game_object()
+{
+  static int unique_id = 0;
+  set_id(unique_id++);
+}
+
 void game_object::update(float dt)
 {
   // Update position and velocity
