@@ -33,7 +33,7 @@ void game::update_game_objects(float dt)
   game_objects objs(m_objects); 
   // Yikes, but updating might remove or add objects
 
-  for (game_object* go : objs)
+  for (p_game_object& go : objs)
   {
     go->update(dt);
   }
@@ -96,9 +96,17 @@ std::cout << "game::UpdateState: activating new state: " << typeid(*m_currentSta
   m_currentState->on_active();
 }
 
-void game::add_game_object(game_object* object)
+void game::add_game_object(p_game_object object)
 {
   m_objects.push_back(object);
+}
+
+void game::remove_game_object(int id)
+{
+  m_objects.erase(
+    std::find_if(m_objects.begin(), m_objects.end(), 
+      [=](p_game_object& go) { return go->get_id() == id; } ), 
+    m_objects.end());
 }
 
 void game::clear_game_objects()

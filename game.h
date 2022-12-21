@@ -4,8 +4,12 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 #include "game_state.h"
 #include "game_object.h"
+
+using p_game_object = std::shared_ptr<game_object>;
+using game_objects = std::vector<p_game_object>;
 
 class game 
 {
@@ -27,8 +31,11 @@ public:
   }
 
   // Game Objects
-  void add_game_object(game_object* object);
+  void add_game_object(p_game_object object);
+  void remove_game_object(int id);
   void clear_game_objects(); // erase all
+
+  p_game_object& get_game_object(int id);
   game_objects* get_game_objects();
 
   // Functions commonly used by Game States
