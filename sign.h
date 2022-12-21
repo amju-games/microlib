@@ -1,15 +1,16 @@
 #pragma once
 
-inline int sign(float f)
+template<typename RET, typename ARG>
+inline RET sign(ARG f)
 {
   if (f < 0)
   {
-    return -1;
+    return static_cast<RET>(-1);
   }
   else if (f > 0)
   {
-    return 1;
+    return static_cast<RET>(1);
   }
-  return 0;
+  return RET(0);
 }
 
