@@ -14,12 +14,13 @@ WARNINGS=-Wall -Wno-deprecated-declarations
 INCLUDES=\
   -I..
 
-CFLAGS=-c $(WARNINGS) $(INCLUDES) -std=c++11   -DMACOSX
+CFLAGS=-c $(WARNINGS) $(INCLUDES) -std=c++17   -DMACOSX
 
 LDFLAGS=-framework OpenGL -framework GLUT
 
 SOURCES= \
 catch_test_main.cpp \
+double_dispatcher_tests.cpp \
 message_queue_tests.cpp \
 ../game.cpp \
 ../game_object.cpp \
