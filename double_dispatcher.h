@@ -11,11 +11,8 @@
 // Reusable double-dispatcher
 // Design idea from "Modern C++ Design".
 // BASE_TYPE: base class for the types you want to dispatch on. E.g. game_object.
-// TYPE_ID: a type for identifying each subclass of BASE_TYPE. E.g. an int or string.
-// TYPE_ID_FUNC: a functor taking a BASE_TYPE*, returning an ID of type TYPE_ID, corresponding 
-//  to the dynamic type of the arg.
 
-template<class BASE_TYPE, typename TYPE_ID, class TYPE_ID_FUNC>
+template<class BASE_TYPE>
 class double_dispatcher
 {
 public:
@@ -50,27 +47,57 @@ public:
   }
 
 private:
+  // Wrapper around std::type_info, from "Modern C++ Design".
+  struct nice_type_info
+  {
+    nice_type_info()
+    {
+      class c {};
+      m_info = &typeid(c);
+    }
+
+    nice_type_info(const std::type_info& ti)
+    {
+      m_info = &ti;
+    }
+
+    bool operator==(const nice_type_info& other) const
+    {
+      return *m_info == *other.m_info;
+    }
+
+    bool operator<(const nice_type_info& other) const
+    {
+      return m_info->before(*other.m_info);
+    }
+
+    const char* name() const
+    {
+      return m_info->name();
+    }
+
+    const std::type_info* m_info = nullptr;
+  };
 
   // Get type ID for the given object.
-  TYPE_ID get_type_id(const BASE_TYPE* obj) const
+  nice_type_info get_type_id(const BASE_TYPE* obj) const
   {
-    return TYPE_ID_FUNC()(obj);
+    return nice_type_info(typeid(*obj));
   }
 
   // Get type ID for the given type.
   template<class DERIVED_TYPE>
-  TYPE_ID get_static_type_id() const
+  nice_type_info get_static_type_id() const
   {
     static_assert(std::is_base_of<BASE_TYPE, DERIVED_TYPE>::value);
-    DERIVED_TYPE t;
-    return get_type_id(&t);
+    return nice_type_info(typeid(DERIVED_TYPE));
   }
 
   using coll_handler = std::function<void(BASE_TYPE*, BASE_TYPE*)>;
-  using handler_map = std::map<std::pair<TYPE_ID, TYPE_ID>, coll_handler>;
+  using handler_map = std::map<std::pair<nice_type_info, nice_type_info>, coll_handler>;
   handler_map m_handlers;
 
-  bool add_handler(TYPE_ID type1, TYPE_ID type2, coll_handler handler)
+  bool add_handler(nice_type_info type1, nice_type_info type2, coll_handler handler)
   {
     // It's ok for type1 == type2, and it's ok to reset an existing handler to a new function. 
     // But it's not ok to register a handler for (t1, t2) when a handler is already registered for 

@@ -20,27 +20,19 @@ class fruit
 {
 public:
   virtual ~fruit() = default;
-  virtual std::string get_string_type_id() const = 0;
-};
-
-struct fruit_string_id_getter
-{
-  std::string operator()(const fruit* f) const { return f->get_string_type_id(); }
 };
 
 class apple : public fruit
 {
 public:
-  std::string get_string_type_id() const override { return "apple"; }
 };
 
 class orange : public fruit
 {
 public:
-  std::string get_string_type_id() const override { return "orange"; }
 };
 
-using fruit_string_dd = double_dispatcher<fruit, std::string, fruit_string_id_getter>;
+using fruit_dd = double_dispatcher<fruit>;
 
 void handle_apple_orange(apple* a, orange* o)
 {
@@ -57,7 +49,7 @@ void handle_orange_apple(orange* o, apple* a)
 
 TEST_CASE("create, destroy dd", "[double_dispatcher]")
 {
-  fruit_string_dd fsd;
+  fruit_dd fsd;
 }
 
 TEST_CASE("add handler and dispatch, fruit string dd", "[double_dispatcher]")
@@ -65,29 +57,29 @@ TEST_CASE("add handler and dispatch, fruit string dd", "[double_dispatcher]")
   reset();
   REQUIRE(apple_orange == 0);
 
-  fruit_string_dd fsd;
-  bool added = fsd.add_handler<apple, orange>(handle_apple_orange);
+  fruit_dd fdd;
+  bool added = fdd.add_handler<apple, orange>(handle_apple_orange);
   REQUIRE(added);
 
-  bool added_again = fsd.add_handler<apple, orange>(handle_apple_orange);
+  bool added_again = fdd.add_handler<apple, orange>(handle_apple_orange);
   REQUIRE(added_again); // OK to redefine handler
 
   // Don't add a handler with reversed types of an existing handler, to avoid possible
   //  inconsistency.
-  bool add_with_reversed_types = fsd.add_handler<orange, apple>(handle_orange_apple);
+  bool add_with_reversed_types = fdd.add_handler<orange, apple>(handle_orange_apple);
   REQUIRE_FALSE(add_with_reversed_types);
 
   apple a;
   orange o;
-  bool dispatched = fsd.dispatch(&a, &o);
+  bool dispatched = fdd.dispatch(&a, &o);
   REQUIRE(dispatched);
   REQUIRE(apple_orange == 1);
 
-  dispatched = fsd.dispatch(&o, &a);
+  dispatched = fdd.dispatch(&o, &a);
   REQUIRE(dispatched);
   REQUIRE(apple_orange == 2);
 
-  dispatched = fsd.dispatch(&o, &o);
+  dispatched = fdd.dispatch(&o, &o);
   REQUIRE_FALSE(dispatched);
   REQUIRE(apple_orange == 2);
 }
