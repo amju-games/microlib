@@ -27,8 +27,6 @@ message_queue_tests.cpp \
 ../message_queue.cpp \
 ../timer.cpp
 
-#../sweep_and_prune.cpp \
-
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=microlib_tests
 
