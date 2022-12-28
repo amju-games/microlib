@@ -1,6 +1,5 @@
-// -----------------------------------------------------------------------------
-// glboiler - Jason Colman 2016-2017 - OpenGL experiments
-// -----------------------------------------------------------------------------
+// "microlib" minimal C++ game utility library
+// (c) Copyright 2017-2022 Juliet Colman
 
 #include <stdlib.h> // atoi()
 #include "string_utils.h"

@@ -1,5 +1,5 @@
 // "microlib" minimal C++ game utility library
-// (c) Copyright 2017 Jason Colman
+// (c) Copyright 2017-2022 Juliet Colman
 
 #include "catch.hpp"
 #include "message_queue.h"

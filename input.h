@@ -1,5 +1,5 @@
-// "jammy" Game Prototype
-// (c) Jason Colman 2017
+// "microlib" minimal C++ game utility library
+// (c) Copyright 2017-2022 Juliet Colman
 
 #pragma once
 
