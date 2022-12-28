@@ -1,6 +1,6 @@
 #pragma once
 
-template<typename RET, typename ARG>
+template<typename ARG, typename RET = int>
 inline RET sign(ARG f)
 {
   if (f < 0)
