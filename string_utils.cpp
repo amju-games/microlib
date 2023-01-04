@@ -3,6 +3,7 @@
 
 #include <stdlib.h> // atoi()
 #include "string_utils.h"
+#include "vec2.h"
 
 strings split(const std::string& cs, char c, bool yes_trim)
 {
@@ -99,4 +100,10 @@ float to_float(const std::string& s)
 {
   return static_cast<float>(atof(s.c_str()));
 }
+
+std::string to_string(const vec2& v)
+{
+  return concat("(", v.x, ", ", v.y, ")");
+}
+
 

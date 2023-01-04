@@ -3,8 +3,33 @@
 
 #pragma once
 
+//#include <format> // C++20, not supported yet!? :(
+#include <iomanip>
 #include <string>
+#include <sstream>
 #include <vector>
+
+struct vec2;
+std::string to_string(const vec2& v);
+
+inline std::string concat(const vec2& v) { return to_string(v); }
+
+inline std::string concat(float f) 
+{ 
+  //return std::format("{:.2f}", f);  // not supported?
+  std::ostringstream oss;
+  oss << std::fixed << std::setprecision(2) << f;
+  return oss.str();
+}
+
+inline std::string concat(int i) { return std::to_string(i); }
+
+inline std::string concat(const char* c) { return std::string(c); }
+
+inline std::string concat(const std::string& s) { return s; }
+
+template<typename T, typename ...Tail>
+std::string concat(T t, Tail... tail) { return concat(t) + concat(tail...); }
 
 using strings = std::vector<std::string>;
 
@@ -26,4 +51,5 @@ bool contains(const std::string& container, const std::string& search_for_this);
 int to_int(const std::string& s);
 
 float to_float(const std::string& s);
+
 
