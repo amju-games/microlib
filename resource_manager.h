@@ -1,35 +1,33 @@
+// "microlib" minimal C++ game utility library
+// (c) Copyright 2017-2022 Juliet Colman
+
 #pragma once
 
+#include <functional>
 #include <memory>
 #include <string>
 #include <unordered_map>
 
-// * default_loader *
-// Default behaviour: call load() on a resource. This is for resource types with a load
-//  function, no good for e.g. a string.
-template<typename T>
-struct default_loader
-{
-  bool load(std::shared_ptr<T>& resource, const std::string& filename)
-  {
-    return resource->load(filename);
-  }
-};
-
 // * resource_manager *
 // Caches resources of the given type, created and loaded on first call to get.
-template<typename T, class LOADER = default_loader<T>> 
+template<typename T> 
 class resource_manager
 {
 public:
-  std::shared_ptr<T> get(const std::string& filename)
+  // Loader func: the default version calls load() on the given resource.
+  // For resource types with no load function (e.g. strings), you can specify a 
+  //  custom loader when creating the resource manager.
+  using loader_func = std::function<bool(std::shared_ptr<T>, const std::string&)>;
+
+  resource_manager(loader_func loader = default_loader) : m_loader(loader) {}
+
+  std::shared_ptr<T> get(const std::string& filename) const
   {
     auto it = m_map.find(filename);
     if (it == m_map.end()) // [[unlikely]] // only on first call with this filename
     {
       auto p = std::make_shared<T>();
-      LOADER loader;
-      if (loader.load(p, filename))
+      if (m_loader(p, filename))
       {
         m_map[filename] = p;
         return p;
@@ -60,6 +58,13 @@ public:
 
 private:
   using map = std::unordered_map<std::string, std::shared_ptr<T>>;
-  map m_map;
+  mutable map m_map;
+
+  loader_func m_loader;
+
+  static bool default_loader(std::shared_ptr<T> res, const std::string& filename)
+  {
+    return res->load(filename); 
+  }
 };
 

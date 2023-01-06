@@ -75,31 +75,25 @@ TEST_CASE("clear data", "[resource_manager]")
 }
 
 
+bool my_custom_loader_for_strings(std::shared_ptr<std::string> string_resource, const std::string& filename) 
+{ 
+  *string_resource = filename;
+  return true;
+}
+
 TEST_CASE("custom loader", "[resource_manager]")
 {
-  struct my_custom_loader_for_strings
-  {
-    bool load(std::shared_ptr<std::string>& string_resource, const std::string& filename) 
-    { 
-      *string_resource = filename;
-      return true;
-    }
-  };
-
-  resource_manager<std::string, my_custom_loader_for_strings> rm;
+  resource_manager<std::string> rm(my_custom_loader_for_strings);
   std::shared_ptr<std::string> res = rm.get(RES_NAME);
   REQUIRE(res.get());
   REQUIRE(*res == RES_NAME); 
 }
 
+bool string_failing_loader(std::shared_ptr<std::string>, const std::string&) { return false; }
+
 TEST_CASE("load fails", "[resource_manager]")
 {
-  struct string_failing_loader
-  {
-    bool load(std::shared_ptr<std::string>&, const std::string&) { return false; }
-  };
-
-  resource_manager<std::string, string_failing_loader> rm;
+  resource_manager<std::string> rm(string_failing_loader);
   std::shared_ptr<std::string> res = rm.get(RES_NAME);
   REQUIRE(res == nullptr);
 }
