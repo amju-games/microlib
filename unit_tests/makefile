@@ -22,6 +22,7 @@ SOURCES= \
 catch_test_main.cpp \
 double_dispatcher_tests.cpp \
 message_queue_tests.cpp \
+resource_manager_tests.cpp \
 string_utils_tests.cpp \
 ../game.cpp \
 ../game_object.cpp \
