@@ -21,10 +21,12 @@ LDFLAGS=-framework OpenGL -framework GLUT
 SOURCES= \
 catch_test_main.cpp \
 double_dispatcher_tests.cpp \
+file_string_utils_tests.cpp \
 message_queue_tests.cpp \
 multi_manager_tests.cpp \
 resource_manager_tests.cpp \
 string_utils_tests.cpp \
+../file_string_utils.cpp \
 ../game.cpp \
 ../game_object.cpp \
 ../message_queue.cpp \
