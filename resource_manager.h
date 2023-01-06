@@ -1,9 +1,24 @@
 #pragma once
 
 #include <memory>
+#include <string>
 #include <unordered_map>
 
-template<typename T> 
+// * default_loader *
+// Default behaviour: call load() on a resource. This is for resource types with a load
+//  function, no good for e.g. a string.
+template<typename T>
+struct default_loader
+{
+  bool load(std::shared_ptr<T>& resource, const std::string& filename)
+  {
+    return resource->load(filename);
+  }
+};
+
+// * resource_manager *
+// Caches resources of the given type, created and loaded on first call to get.
+template<typename T, class LOADER = default_loader<T>> 
 class resource_manager
 {
 public:
@@ -13,7 +28,8 @@ public:
     if (it == m_map.end()) // [[unlikely]] // only on first call with this filename
     {
       auto p = std::make_shared<T>();
-      if (p->load(filename))
+      LOADER loader;
+      if (loader.load(p, filename))
       {
         m_map[filename] = p;
         return p;
