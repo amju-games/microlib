@@ -98,3 +98,25 @@ TEST_CASE("load fails", "[resource_manager]")
   REQUIRE(res == nullptr);
 }
 
+TEST_CASE("set creation function", "[resource_manager]")
+{
+  struct base_class
+  {
+    virtual ~base_class() = default;
+
+    virtual std::string name() { return "base"; }
+    bool load(const std::string&) { return true; }
+  };
+
+  struct derived_class : public base_class
+  {
+    std::string name() override { return "derived"; } 
+  };
+
+  resource_manager<base_class> rm;
+  rm.set_creator_func([]() { return std::make_shared<derived_class>(); });
+  auto res = rm.get(RES_NAME);
+  REQUIRE(res->name() == "derived");
+}
+
+

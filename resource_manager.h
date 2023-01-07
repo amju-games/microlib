@@ -21,12 +21,17 @@ public:
 
   resource_manager(loader_func loader = default_loader) : m_loader(loader) {}
 
+  // Creator func: set a custom func to create a new subclass-of-T. 
+  // Default creator creates a new T.
+  using creator_func = std::function<std::shared_ptr<T>()>;
+  void set_creator_func(creator_func creator) { m_creator = creator; }
+
   std::shared_ptr<T> get(const std::string& filename) const
   {
     auto it = m_map.find(filename);
     if (it == m_map.end()) // [[unlikely]] // only on first call with this filename
     {
-      auto p = std::make_shared<T>();
+      auto p = m_creator();
       if (m_loader(p, filename))
       {
         m_map[filename] = p;
@@ -58,7 +63,7 @@ public:
 
 private:
   using map = std::unordered_map<std::string, std::shared_ptr<T>>;
-  mutable map m_map;
+  mutable map m_map; // so get() can be const
 
   loader_func m_loader;
 
@@ -66,5 +71,12 @@ private:
   {
     return res->load(filename); 
   }
+
+  static std::shared_ptr<T> default_creator()
+  {
+    return std::make_shared<T>();
+  }
+
+  creator_func m_creator = default_creator;
 };
 
