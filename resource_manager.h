@@ -19,12 +19,12 @@ public:
   //  custom loader when creating the resource manager.
   using loader_func = std::function<bool(std::shared_ptr<T>, const std::string&)>;
 
-  resource_manager(loader_func loader = default_loader) : m_loader(loader) {}
-
   // Creator func: set a custom func to create a new subclass-of-T. 
   // Default creator creates a new T.
   using creator_func = std::function<std::shared_ptr<T>()>;
-  void set_creator_func(creator_func creator) { m_creator = creator; }
+
+  resource_manager(loader_func loader = default_loader, creator_func creator = default_creator) 
+    : m_loader(loader), m_creator(creator) {}
 
   std::shared_ptr<T> get(const std::string& filename) const
   {
@@ -66,7 +66,9 @@ private:
   mutable map m_map; // so get() can be const
 
   loader_func m_loader;
+  creator_func m_creator;
 
+public:
   static bool default_loader(std::shared_ptr<T> res, const std::string& filename)
   {
     return res->load(filename); 
@@ -77,6 +79,5 @@ private:
     return std::make_shared<T>();
   }
 
-  creator_func m_creator = default_creator;
 };
 

@@ -104,7 +104,7 @@ TEST_CASE("set creation function", "[resource_manager]")
   {
     virtual ~base_class() = default;
 
-    virtual std::string name() { return "base"; }
+    virtual std::string name() = 0;
     bool load(const std::string&) { return true; }
   };
 
@@ -113,8 +113,10 @@ TEST_CASE("set creation function", "[resource_manager]")
     std::string name() override { return "derived"; } 
   };
 
-  resource_manager<base_class> rm;
-  rm.set_creator_func([]() { return std::make_shared<derived_class>(); });
+  resource_manager<base_class> rm(
+    resource_manager<base_class>::default_loader,
+    []() { return std::make_shared<derived_class>(); }
+  );
   auto res = rm.get(RES_NAME);
   REQUIRE(res->name() == "derived");
 }
