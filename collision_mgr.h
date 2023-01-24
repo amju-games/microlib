@@ -13,7 +13,8 @@ using collision_vec = std::vector<collision_pair>;
 // Collision manager: policy-based collision strategy and double-dispatcher combo.
 // Policy-based design idea is from "Modern C++ Design".
 
-// COLLISION_STRATEGY should provide broad_phase() and narrow_phase() members.
+// BROAD_PHASE and NARROW_PHASE collision strategies  should provide broad_phase() 
+//  and narrow_phase() members respectively.
 // DOUBLE_DISPATCHER should provide a dispatch() member which calls a handler appropriate to the
 //  dynamic types of the two colliding game objects.
 
