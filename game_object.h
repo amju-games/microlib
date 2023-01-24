@@ -29,11 +29,22 @@ public:
   // game_objects have a bounding box
   const aabb& get_aabb() const { return m_aabb; } 
 
+  bool is_alive() const { return m_is_alive; }
+  void set_is_alive(bool alive) { m_is_alive = alive; }
+
+  bool is_collidable() const { return m_is_collidable; }
+  void set_is_collidable(bool collidable) { m_is_collidable = collidable; }
+
 protected:
   int m_id = -1;
   vec2 m_pos;
   vec2 m_vel;
   vec2 m_acc;
   aabb m_aabb;
+
+  // If not alive, we don't draw or update
+  bool m_is_alive = true;
+
+  bool m_is_collidable = false;
 };
 
