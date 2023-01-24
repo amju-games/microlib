@@ -8,10 +8,18 @@
 #include <string>
 #include <unordered_map>
 
+// Interface for reload function
+class resource_manager_base
+{
+public:
+  virtual ~resource_manager_base() = default;
+  virtual void reload() = 0;
+};
+
 // * resource_manager *
 // Caches resources of the given type, created and loaded on first call to get.
 template<typename T> 
-class resource_manager
+class resource_manager : public resource_manager_base
 {
 public:
   // Loader func: the default version calls load() on the given resource.
@@ -48,7 +56,7 @@ public:
     }
   }
 
-  void reload()
+  void reload() override
   {
     for (auto& pair : m_map)
     {

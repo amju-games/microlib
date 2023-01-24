@@ -3,7 +3,8 @@
 
 #pragma once
 
-#include <any>
+#include <iostream>
+
 #include <string>
 #include <unordered_map>
 #include "resource_manager.h"
@@ -13,10 +14,9 @@
 class multi_manager
 {
 public:
-  template<typename T>
-  void add_resource_manager(const std::string& extension, const resource_manager<T>& rm)
+  void add_resource_manager(const std::string& extension, std::unique_ptr<resource_manager_base>&& rm)
   {
-    m_map[extension] = std::make_any<resource_manager<T>>(rm);
+    m_map.insert(std::make_pair(extension, std::move(rm)));
   }
 
   template<typename T>
@@ -30,13 +30,23 @@ public:
     }
     else
     {
-      const resource_manager<T>& rm = std::any_cast<resource_manager<T>>(it->second);
-      return rm.get(filename);
+      const resource_manager<T>* rm = dynamic_cast<resource_manager<T>*>(it->second.get());
+      return rm->get(filename);
+    }
+  }
+
+  void reload()
+  {
+    for (auto& p : m_map)
+    {
+std::cout << "Reloading data for " << p.first << " files\n";
+      auto& rm = p.second;
+      rm->reload(); 
     }
   }
 
 private:
   // Map file extension (e.g. ".png") to a resource_manager<T>
-  std::unordered_map<std::string, std::any> m_map;
+  std::unordered_map<std::string, std::unique_ptr<resource_manager_base>> m_map;
 };
 
