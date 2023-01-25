@@ -3,6 +3,12 @@
 
 #pragma once
 
+#define RES_MANAGER_DEBUG
+
+#ifdef RES_MANAGER_DEBUG
+#include <iostream>
+#endif
+
 #include <functional>
 #include <memory>
 #include <string>
@@ -60,6 +66,9 @@ public:
   {
     for (auto& pair : m_map)
     {
+#ifdef RES_MANAGER_DEBUG
+std::cout << "  Reloading " << pair.first << "\n";
+#endif
       pair.second->load(pair.first);
     }
   }
