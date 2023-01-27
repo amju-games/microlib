@@ -64,12 +64,12 @@ public:
 
   void reload() override
   {
-    for (auto& pair : m_map)
+    for (auto [filename, p] : m_map)
     {
 #ifdef RES_MANAGER_DEBUG
-std::cout << "  Reloading " << pair.first << "\n";
+std::cout << "  Reloading " << filename << "\n";
 #endif
-      pair.second->load(pair.first);
+      m_loader(p, filename); // this should succeed, if it did in get() 
     }
   }
 
