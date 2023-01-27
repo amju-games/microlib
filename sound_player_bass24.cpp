@@ -108,7 +108,7 @@ std::cout << "BASS: playing new song: " << songFile.c_str() << "\n";
     }
 
   // Set vol
-  int vol = (int)(100.0f);
+  //int vol = (int)(100.0f);
 //  BASS_ChannelSetAttributes(m_chan, -1, vol, -1);
 
   BASS_ChannelPlay(m_chan,FALSE);
@@ -144,7 +144,7 @@ void sound_player_bass24::set_song_max_volume(float f)
     return;
   }
 
-  int newVol = (int)(f * 100.0f);
+  //int newVol = (int)(f * 100.0f);
 //  BASS_ChannelSetAttributes(m_chan, -1, newVol, -1);
 }
 
