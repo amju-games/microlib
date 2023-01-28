@@ -9,6 +9,11 @@
 #include "game.h"
 #include "message_queue.h"
 
+void game::on_dir_button_action(const dir_button_action& dba)
+{
+  get_game_state()->on_dir_button_action(dba);
+}
+
 void game::update(float dt)
 {
   update_state();

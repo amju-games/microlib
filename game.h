@@ -5,6 +5,7 @@
 
 #include <memory>
 #include <vector>
+#include "action.h"
 #include "game_state.h"
 #include "game_object.h"
 
@@ -40,6 +41,9 @@ public:
 
   // Functions commonly used by Game States
   void update_game_objects(float dt);
+
+  // Input: (pass through to current game state)
+  void on_dir_button_action(const dir_button_action&);
 
 private:
   void update_state(); // go to new state if set

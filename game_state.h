@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "action.h"
+
 class game_state
 {
 public:
@@ -15,5 +17,7 @@ public:
   virtual void on_deactive() {}
 
   virtual void on_input(int input) {}
+  virtual void on_dir_button_action(const dir_button_action&) {}
+
 };
 
