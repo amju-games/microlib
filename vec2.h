@@ -3,6 +3,16 @@
 
 #pragma once
 
+#ifdef UNIT_TEST
+#ifndef VEC2_DEBUG
+#define VEC2_DEBUG
+#endif
+#endif
+
+#ifdef VEC2_DEBUG
+#include <iostream> 
+#endif
+
 #include <cassert>
 #include <cmath>
 
@@ -18,8 +28,22 @@ struct vec2
     return *this;
   }
 
+  vec2& operator*=(float f)
+  {
+    x *= f;
+    y *= f;
+    return *this;
+  }
+
   float x, y;
 };
+
+#ifdef VEC2_DEBUG
+inline std::ostream& operator<<(std::ostream& os, const vec2& v)
+{
+  return os << "(" << v.x << ", " << v.y << ")";
+}
+#endif
 
 inline bool operator==(const vec2& v1, const vec2& v2)
 {
@@ -69,9 +93,9 @@ inline vec2 operator-(const vec2& v)
 
 inline vec2 normalise(const vec2& v)
 {
-  float len = length(v);
-  assert(len > 0);
-  float one_over = 1.0f / len;
+  float sqlen = squared_length(v);
+  assert(sqlen > 0);
+  float one_over = 1.0f / sqrtf(sqlen);
   return v * one_over;
 }
 
