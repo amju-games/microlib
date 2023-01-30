@@ -21,6 +21,7 @@ public:
 
   virtual void on_dir_button_action(const dir_button_action&) {}
   virtual void on_joystick_action(const joystick_action&) {}
-
+  virtual void on_keyboard_action(const keyboard_action&) {}
+  virtual void on_game_controller_button_action(const game_controller_button_action&) {}
 };
 

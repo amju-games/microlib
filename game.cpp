@@ -9,6 +9,16 @@
 #include "game.h"
 #include "message_queue.h"
 
+void game::on_keyboard_action(const keyboard_action& ka)
+{
+  get_game_state()->on_keyboard_action(ka);
+}
+
+void game::on_game_controller_button_action(const game_controller_button_action& gcba)
+{
+  get_game_state()->on_game_controller_button_action(gcba);
+}
+
 void game::on_dir_button_action(const dir_button_action& dba)
 {
   get_game_state()->on_dir_button_action(dba);
@@ -39,8 +49,8 @@ void game::run_one_loop(float dt)
 
 void game::update_game_objects(float dt)
 {
+  // Make copy of game object container: updating might remove or add objects
   game_objects objs(m_objects); 
-  // Yikes, but updating might remove or add objects
 
   for (p_game_object& go : objs)
   {

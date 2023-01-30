@@ -47,6 +47,10 @@ public:
 
   void on_joystick_action(const joystick_action&);
 
+  void on_keyboard_action(const keyboard_action&);
+
+  void on_game_controller_button_action(const game_controller_button_action&);
+
 private:
   void update_state(); // go to new state if set
 
