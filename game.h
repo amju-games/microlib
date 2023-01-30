@@ -45,6 +45,8 @@ public:
   // Input: (pass through to current game state)
   void on_dir_button_action(const dir_button_action&);
 
+  void on_joystick_action(const joystick_action&);
+
 private:
   void update_state(); // go to new state if set
 

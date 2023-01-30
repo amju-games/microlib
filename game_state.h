@@ -16,8 +16,11 @@ public:
   virtual void on_active() {}
   virtual void on_deactive() {}
 
+  // TODO Deprecated
   virtual void on_input(int input) {}
+
   virtual void on_dir_button_action(const dir_button_action&) {}
+  virtual void on_joystick_action(const joystick_action&) {}
 
 };
 

@@ -14,6 +14,11 @@ void game::on_dir_button_action(const dir_button_action& dba)
   get_game_state()->on_dir_button_action(dba);
 }
 
+void game::on_joystick_action(const joystick_action& ja)
+{
+  get_game_state()->on_joystick_action(ja);
+}
+
 void game::update(float dt)
 {
   update_state();
