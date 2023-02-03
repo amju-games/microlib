@@ -24,8 +24,11 @@ class collision_mgr : public DOUBLE_DISPATCHER, public BROAD_PHASE, public NARRO
 public:
   void check_for_collisions() 
   {
-    const auto poss_collisions = BROAD_PHASE::broad_phase();
+    // Pass in double dispatcher so we can prune pairs with no handler function
+    const auto poss_collisions = BROAD_PHASE::broad_phase(dynamic_cast<DOUBLE_DISPATCHER&>(*this));
+
     const auto actual_collisions = NARROW_PHASE::narrow_phase(poss_collisions);
+
     for (const auto& c: actual_collisions)
     {
       DOUBLE_DISPATCHER::dispatch(c[0], c[1]);
