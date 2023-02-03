@@ -7,6 +7,7 @@
 #include <functional>
 #include <map>
 #include <type_traits> // is_base_of
+#include <typeindex>
 
 // Reusable double-dispatcher
 // Design idea from "Modern C++ Design".
@@ -47,57 +48,25 @@ public:
   }
 
 private:
-  // Wrapper around std::type_info, from "Modern C++ Design".
-  struct nice_type_info
-  {
-    nice_type_info()
-    {
-      class c {};
-      m_info = &typeid(c);
-    }
-
-    nice_type_info(const std::type_info& ti)
-    {
-      m_info = &ti;
-    }
-
-    bool operator==(const nice_type_info& other) const
-    {
-      return *m_info == *other.m_info;
-    }
-
-    bool operator<(const nice_type_info& other) const
-    {
-      return m_info->before(*other.m_info);
-    }
-
-    const char* name() const
-    {
-      return m_info->name();
-    }
-
-    const std::type_info* m_info = nullptr;
-  };
-
   // Get type ID for the given object.
-  nice_type_info get_type_id(const BASE_TYPE* obj) const
+  std::type_index get_type_id(const BASE_TYPE* obj) const
   {
-    return nice_type_info(typeid(*obj));
+    return std::type_index(typeid(*obj));
   }
 
   // Get type ID for the given type.
   template<class DERIVED_TYPE>
-  nice_type_info get_static_type_id() const
+  std::type_index get_static_type_id() const
   {
     static_assert(std::is_base_of<BASE_TYPE, DERIVED_TYPE>::value);
-    return nice_type_info(typeid(DERIVED_TYPE));
+    return std::type_index(typeid(DERIVED_TYPE));
   }
 
   using coll_handler = std::function<void(BASE_TYPE*, BASE_TYPE*)>;
-  using handler_map = std::map<std::pair<nice_type_info, nice_type_info>, coll_handler>;
+  using handler_map = std::map<std::pair<std::type_index, std::type_index>, coll_handler>;
   handler_map m_handlers;
 
-  bool add_handler(nice_type_info type1, nice_type_info type2, coll_handler handler)
+  bool add_handler(std::type_index type1, std::type_index type2, coll_handler handler)
   {
     // It's ok for type1 == type2, and it's ok to reset an existing handler to a new function. 
     // But it's not ok to register a handler for (t1, t2) when a handler is already registered for 
