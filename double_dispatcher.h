@@ -37,6 +37,14 @@ public:
       });
   }
 
+  bool has_handler(BASE_TYPE* obj1, BASE_TYPE* obj2) const
+  {
+    return 
+      (m_handlers.find(std::make_pair(get_type_id(obj1), get_type_id(obj2))) != m_handlers.end()) 
+       ||
+      (m_handlers.find(std::make_pair(get_type_id(obj2), get_type_id(obj1))) != m_handlers.end()); 
+  }
+ 
   // Dispatch to a previously registered handler, where the args match the dynamic types
   //  of obj1 and obj2.
   // Return true if dispatch is successful, false if no handler is registered for this pair

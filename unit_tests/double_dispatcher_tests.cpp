@@ -84,3 +84,22 @@ TEST_CASE("add handler and dispatch, fruit string dd", "[double_dispatcher]")
   REQUIRE(apple_orange == 2);
 }
 
+TEST_CASE("has_handler false case", "[double_dispatcher]")
+{
+  fruit_dd fdd;
+  apple a;
+  orange o;
+  REQUIRE_FALSE(fdd.has_handler(&a, &o));
+  REQUIRE_FALSE(fdd.has_handler(&o, &a));
+}
+
+TEST_CASE("has_handler true case", "[double_dispatcher]")
+{
+  fruit_dd fdd;
+  apple a;
+  orange o;
+  fdd.add_handler<apple, orange>(handle_apple_orange);
+  REQUIRE(fdd.has_handler(&a, &o));
+  REQUIRE(fdd.has_handler(&o, &a));
+}
+
