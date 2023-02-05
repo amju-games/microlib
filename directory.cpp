@@ -1,3 +1,4 @@
+#include <filesystem>
 #include <iostream>
 
 #ifdef MACOSX
@@ -6,6 +7,36 @@
 
 #include "directory.h"
 #include "file_string_utils.h"
+
+bool make_dir(std::string dir)
+{
+  if (dir.empty())
+  {
+    return true;
+  }
+ 
+  while (dir.back() == '/')
+  {
+    dir.pop_back();
+  }
+
+  if (std::filesystem::exists(dir))
+  {
+std::cout << "make_dir: \"" << dir << "\" already exists\n";
+    return true;
+  }
+
+std::cout << "make_dir: \"" << dir << "\"\n";
+
+  std::filesystem::path p = dir;
+  std::error_code ec;
+  bool retval = std::filesystem::create_directories(p, ec);
+  if (!retval)
+  {
+std::cout << ec.message() << "\n";
+  }
+  return retval;
+}
 
 #ifdef MACOSX
 // From https://developer.apple.com/carbon/tipsandtricks.html
@@ -104,5 +135,63 @@ std::string get_data_dir()
 #ifdef IPHONE
   return iOSGetDataDir();
 #endif
+}
+
+std::string get_save_dir_macosx_bundled()
+{
+  static std::string s;
+  static bool first = true;
+  if (first)
+  {
+    first = false;
+
+    s = "/Users/Shared/";
+    //s += appName;
+    //s += "/";
+
+    //MkDir(s);
+  }
+
+  return s;
+}
+
+std::string get_save_dir_macosx_not_bundled()
+{
+  static std::string s;
+  static bool first = true;
+  if (first)
+  {
+    first = false;
+
+    s += "../save/";
+
+    //MkDir(s);
+  }
+
+  return s;
+}
+
+std::string get_save_dir()
+{
+  std::string dir;
+
+#ifdef MACOSX
+  if (AmIBundled())
+  {
+    auto dir =  get_save_dir_macosx_bundled();
+  }
+  else
+  {
+    auto dir = get_save_dir_macosx_not_bundled();
+  }
+#endif
+
+  static bool first_time = true;
+  if (first_time)
+  {
+    make_dir(dir);
+  }
+
+  return dir;
 }
 

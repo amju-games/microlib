@@ -28,7 +28,11 @@ class text_file : public file
 {
 public:
   bool open_for_reading(const std::string& filename);
-  bool read_string(std::string*);
+  bool open_for_writing(const std::string& filename);
+  bool read_string(std::string&);
+  bool read_int(int&);
+  bool write_string(const std::string&);
+  bool write_int(int);
   virtual void report_error(const std::string&) override;
 
 private:
