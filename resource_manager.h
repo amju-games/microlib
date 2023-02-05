@@ -3,7 +3,7 @@
 
 #pragma once
 
-#define RES_MANAGER_DEBUG
+//#define RES_MANAGER_DEBUG
 
 #ifdef RES_MANAGER_DEBUG
 #include <iostream>
