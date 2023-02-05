@@ -35,6 +35,9 @@ public:
   bool is_collidable() const { return m_is_collidable; }
   void set_is_collidable(bool collidable) { m_is_collidable = collidable; }
 
+  bool is_visible() const { return m_is_visible; }
+  void set_is_visible(bool visible) { m_is_visible = visible; }
+
 protected:
   int m_id = -1;
   vec2 m_pos;
@@ -46,5 +49,7 @@ protected:
   bool m_is_alive = true;
 
   bool m_is_collidable = false;
+
+  bool m_is_visible = true;
 };
 
