@@ -178,13 +178,15 @@ std::string get_save_dir()
 #ifdef MACOSX
   if (AmIBundled())
   {
-    auto dir =  get_save_dir_macosx_bundled();
+    dir = get_save_dir_macosx_bundled();
   }
   else
   {
-    auto dir = get_save_dir_macosx_not_bundled();
+    dir = get_save_dir_macosx_not_bundled();
   }
 #endif
+
+  std::cout << "Save dir: \"" << dir << "\"\n";
 
   static bool first_time = true;
   if (first_time)
