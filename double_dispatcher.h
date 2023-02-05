@@ -14,7 +14,17 @@
 // BASE_TYPE: base class for the types you want to dispatch on. E.g. game_object.
 
 template<class BASE_TYPE>
-class double_dispatcher
+class double_dispatcher_interface
+{
+public:
+  virtual ~double_dispatcher_interface() = default;
+
+  virtual bool dispatch(BASE_TYPE* obj1, BASE_TYPE* obj2) const = 0;
+  virtual bool has_handler(BASE_TYPE* obj1, BASE_TYPE* obj2) const = 0;
+};
+
+template<class BASE_TYPE>
+class double_dispatcher : public double_dispatcher_interface<BASE_TYPE>
 {
 public:
   // Register a handler for two subtypes of BASE_TYPE. The signature of the handler function is:
@@ -37,7 +47,7 @@ public:
       });
   }
 
-  bool has_handler(BASE_TYPE* obj1, BASE_TYPE* obj2) const
+  bool has_handler(BASE_TYPE* obj1, BASE_TYPE* obj2) const override
   {
     return 
       (m_handlers.find(std::make_pair(get_type_id(obj1), get_type_id(obj2))) != m_handlers.end()) 
@@ -50,7 +60,7 @@ public:
   // Return true if dispatch is successful, false if no handler is registered for this pair
   //  of dynamic types.
 
-  bool dispatch(BASE_TYPE* obj1, BASE_TYPE* obj2) const
+  bool dispatch(BASE_TYPE* obj1, BASE_TYPE* obj2) const override
   {
     return dispatch(obj1, obj2, m_handlers);
   }
