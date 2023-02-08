@@ -98,20 +98,15 @@ bool text_file::read_string(std::string& s)
     return false;
   }
 
-  // Skip blank lines... right?
-  while (s.empty())
+  if (m_file.eof())
   {
-    if (m_file.eof())
-    {
-      // Not an error if we are looping like this:
-      //  while (f.read_string... 
-      return false;
-    }
-
-    m_line++;
-    //std::getline(m_file, &s);
-    m_file >> s;
+    // Not an error if we are looping like this:
+    //  while (f.read_string... 
+    return false;
   }
+
+  m_line++;
+  std::getline(m_file, s);
 
   return true;
 }
