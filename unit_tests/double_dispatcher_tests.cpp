@@ -34,13 +34,13 @@ public:
 
 using fruit_dd = double_dispatcher<fruit>;
 
-void handle_apple_orange(apple* a, orange* o)
+void handle_apple_orange(apple*, orange*)
 {
   // Handle collision between an apple and orange
   apple_orange++;
 }
 
-void handle_orange_apple(orange* o, apple* a)
+void handle_orange_apple(orange*, apple*)
 {
   // We should not end up here if we register the above function with the DD first.
   assert(false); 

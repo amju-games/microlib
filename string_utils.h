@@ -34,9 +34,9 @@ std::string concat(T t, Tail... tail) { return concat(t) + concat(tail...); }
 using strings = std::vector<std::string>;
 
 // Split string s into multiple strings. Split char is not included in
-//  the results. If yes_trim, remove whitespace from beginning and end
+//  the results. Removes whitespace from beginning and end
 //  of result strings.
-strings split(const std::string& s, char split_char, bool yes_trim = true);
+strings split(const std::string& s, char split_char);
 
 // Remove whitespace from beginning and end of s
 std::string trim(const std::string& s);

@@ -5,7 +5,7 @@
 #include "string_utils.h"
 #include "vec2.h"
 
-strings split(const std::string& cs, char c, bool yes_trim)
+strings split(const std::string& cs, char c)
 {
   strings r;
   std::string s(cs);
@@ -31,6 +31,7 @@ strings split(const std::string& cs, char c, bool yes_trim)
       std::cout << "Split: string: " << s.substr(0, i).c_str() << " rem: " << s.substr(i + 1).c_str() << "\n";
 #endif
       std::string sub = s.substr(0, i);
+      sub = trim(sub);
       if (!sub.empty())
       {
         r.push_back(sub);
