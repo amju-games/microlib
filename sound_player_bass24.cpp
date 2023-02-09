@@ -122,7 +122,7 @@ std::cout << "BASS: new song: " << songFile.c_str() << " chan: " << m_chan << "\
 
 void sound_player_bass24::stop_song()
 {
-  if (m_chan == -1)
+  if (m_chan == static_cast<unsigned long>(-1))
   {
     return;
   }
@@ -137,9 +137,9 @@ void sound_player_bass24::update()
 {
 }
 
-void sound_player_bass24::set_song_max_volume(float f)
+void sound_player_bass24::set_song_max_volume([[maybe_unused]] float f)
 {
-  if (m_chan == -1)
+  if (m_chan == static_cast<unsigned long>(-1))
   {
     return;
   }
