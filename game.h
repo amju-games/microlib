@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <chrono>
 #include <memory>
 #include <vector>
 #include "action.h"
@@ -51,6 +52,10 @@ public:
 
   void on_game_controller_button_action(const game_controller_button_action&);
 
+  using duration = std::chrono::duration<float, std::milli>;
+  const duration& get_draw_time() const { return  m_draw_time; }
+  const duration& get_update_time() const { return m_update_time; }
+
 private:
   void update_state(); // go to new state if set
 
@@ -59,5 +64,8 @@ private:
   game_state* m_newState = nullptr;
 
   game_objects m_objects;
+
+  duration m_draw_time;
+  duration m_update_time;
 };
 

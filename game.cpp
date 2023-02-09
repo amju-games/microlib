@@ -31,14 +31,24 @@ void game::on_joystick_action(const joystick_action& ja)
 
 void game::update(float dt)
 {
+  auto start = std::chrono::steady_clock::now();
+
   update_state();
 
   get_game_state()->update(dt);
+  
+  const auto end = std::chrono::steady_clock::now();
+  m_update_time = end - start;
 }
 
 void game::draw()
 {
+  auto start = std::chrono::steady_clock::now();
+
   get_game_state()->draw();
+
+  const auto end = std::chrono::steady_clock::now();
+  m_draw_time = end - start; 
 }
 
 void game::run_one_loop(float dt)
