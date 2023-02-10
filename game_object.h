@@ -5,7 +5,6 @@
 
 #include <vector>
 #include "vec2.h"
-#include "aabb.h"
 
 class game_object
 {
@@ -26,8 +25,9 @@ public:
   const vec2& get_vel() const;
   const vec2& get_acc() const;
 
-  // game_objects have a bounding box
-  const aabb& get_aabb() const { return m_aabb; } 
+  // game_objects have an axis-aligned size
+  void set_size(const vec2&);
+  const vec2& get_size() const;
 
   bool is_alive() const { return m_is_alive; }
   void set_is_alive(bool alive) { m_is_alive = alive; }
@@ -43,7 +43,7 @@ protected:
   vec2 m_pos;
   vec2 m_vel;
   vec2 m_acc;
-  aabb m_aabb;
+  vec2 m_size;
 
   // If not alive, we don't draw or update
   bool m_is_alive = true;
