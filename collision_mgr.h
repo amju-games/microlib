@@ -7,7 +7,7 @@
 #include <vector>
 #include "game_object.h"
 
-using collision_pair = std::array<game_object*, 2>;
+using collision_pair = std::pair<game_object*, game_object*>;
 using collision_vec = std::vector<collision_pair>;
 
 // Collision manager: policy-based collision strategy and double-dispatcher combo.
@@ -31,7 +31,7 @@ public:
 
     for (const auto& c: actual_collisions)
     {
-      DOUBLE_DISPATCHER::dispatch(c[0], c[1]);
+      DOUBLE_DISPATCHER::dispatch(c.first, c.second);
     }
   }
 };
