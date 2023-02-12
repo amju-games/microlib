@@ -12,6 +12,7 @@ public:
 
   virtual std::string get_string(const std::string& key) = 0;
   virtual int get_int(const std::string& key) = 0;
+  virtual float get_float(const std::string& key) = 0;
   virtual vec2 get_vec2(const std::string& key) = 0;
 };
 
@@ -22,6 +23,7 @@ public:
 
   std::string get_string(const std::string& key) override;
   int get_int(const std::string& key) override; 
+  float get_float(const std::string& key) override; 
   vec2 get_vec2(const std::string& key) override;
 
 private:

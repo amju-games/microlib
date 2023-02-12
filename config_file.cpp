@@ -28,7 +28,10 @@ bool text_config_file::load(const std::string& filename)
     {
       continue;
     }
+
+#ifdef CONFIG_FILE_DEBUG
 std::cout << "Line " << line_num << ": " << line << "\n";
+#endif
 
     strings stripped_comment = split(line, '#');
 
@@ -57,6 +60,11 @@ std::string text_config_file::get_string(const std::string& key)
   }
 #endif
   return m_map[key];
+}
+
+float text_config_file::get_float(const std::string& key)
+{
+  return to_float(get_string(key));
 }
 
 int text_config_file::get_int(const std::string& key)
