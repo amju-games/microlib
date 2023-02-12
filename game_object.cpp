@@ -11,7 +11,7 @@ game_object::game_object()
 
 void game_object::update(float dt)
 {
-  if (is_alive())
+  if (is_updatable())
   {
     // Update position and velocity
     vec2 old = m_vel;

@@ -29,8 +29,8 @@ public:
   void set_size(const vec2&);
   const vec2& get_size() const;
 
-  bool is_alive() const { return m_is_alive; }
-  void set_is_alive(bool alive) { m_is_alive = alive; }
+  bool is_updatable() const { return m_is_updatable; }
+  void set_is_updatable(bool alive) { m_is_updatable = alive; }
 
   bool is_collidable() const { return m_is_collidable; }
   void set_is_collidable(bool collidable) { m_is_collidable = collidable; }
@@ -45,8 +45,7 @@ protected:
   vec2 m_acc;
   vec2 m_size;
 
-  // If not alive, we don't draw or update
-  bool m_is_alive = true;
+  bool m_is_updatable = true;
 
   bool m_is_collidable = false;
 
