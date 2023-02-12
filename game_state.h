@@ -16,9 +16,10 @@ public:
   virtual void on_active() {}
   virtual void on_deactive() {}
 
-  virtual void on_dir_button_action(const dir_button_action&) {}
-  virtual void on_joystick_action(const joystick_action&) {}
-  virtual void on_keyboard_action(const keyboard_action&) {}
-  virtual void on_game_controller_button_action(const game_controller_button_action&) {}
+  // Input handlers: return true if event is consumed
+  virtual bool on_dir_button_action(const dir_button_action&) { return false; }
+  virtual bool on_joystick_action(const joystick_action&) { return false; }
+  virtual bool on_keyboard_action(const keyboard_action&) { return false; }
+  virtual bool on_game_controller_button_action(const game_controller_button_action&) { return false; }
 };
 
