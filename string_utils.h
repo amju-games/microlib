@@ -52,4 +52,5 @@ int to_int(const std::string& s);
 
 float to_float(const std::string& s);
 
+std::string float_to_string(float f, int dp = 2);
 

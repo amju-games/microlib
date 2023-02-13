@@ -107,4 +107,13 @@ std::string to_string(const vec2& v)
   return concat("(", v.x, ", ", v.y, ")");
 }
 
+std::string float_to_string(float f, int dp)
+{
+  std::stringstream ss;
+  ss << std::fixed;
+  ss << std::setprecision(dp);
+  ss << f;
+  return ss.str();
+}
+
 
