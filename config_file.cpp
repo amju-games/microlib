@@ -72,6 +72,15 @@ int text_config_file::get_int(const std::string& key)
   return to_int(get_string(key));
 }
 
+f_colour text_config_file::get_f_colour(const std::string& key) 
+{
+  std::string s = get_string(key);
+  s = replace(s, "(", "");
+  s = replace(s, ")", "");
+  strings strs = split(s, ',');
+  return f_colour(to_float(strs[0]), to_float(strs[1]), to_float(strs[2]));
+}
+
 vec2 text_config_file::get_vec2(const std::string& key) 
 {
   std::string s = get_string(key);
