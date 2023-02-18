@@ -106,7 +106,6 @@ std::string GetProcessDir()
 #endif
 
     return root;
-}
 #endif // MACOSX
 return {};
 }
