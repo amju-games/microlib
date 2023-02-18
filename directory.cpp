@@ -58,56 +58,58 @@ Boolean AmIBundled()
 std::string GetProcessDir()
 {
 #ifdef IPHONE
-  std::cout << "Yikes, calling GetProcessDir\n";
-  Assert(0);
+    std::cout << "Yikes, calling GetProcessDir\n";
+    Assert(0);
 #endif // IPHONE
-  
+
 #ifdef MACOSX
-  // This works for exes which are not bundles!
-  CFBundleRef mainBundle = CFBundleGetMainBundle();
+    // This works for exes which are not bundles!
+    CFBundleRef mainBundle = CFBundleGetMainBundle();
 
-  // Find the executable URL - this works even for non-bundles!
-  CFURLRef fileUrl = CFBundleCopyExecutableURL(mainBundle);
+    // Find the executable URL - this works even for non-bundles!
+    CFURLRef fileUrl = CFBundleCopyExecutableURL(mainBundle);
 
-  // Convert URL to path
-  CFStringRef filePath = CFURLCopyFileSystemPath (fileUrl, kCFURLPOSIXPathStyle);
+    // Convert URL to path
+    CFStringRef filePath = CFURLCopyFileSystemPath(fileUrl, kCFURLPOSIXPathStyle);
 
-  // Convert (unicode ?) CFStringRef to a const char *
-  static const int MAX_STR = 1024;
-  char bytes[MAX_STR];
+    // Convert (unicode ?) CFStringRef to a const char *
+    static const int MAX_STR = 1024;
+    char bytes[MAX_STR];
 
-  std::string fileName;
-  if (CFStringGetCString(filePath, bytes, MAX_STR, CFStringGetSystemEncoding()))
-  {
-    fileName = bytes;
-  }
-  else
-  {
-    // TODO
-std::cout << "Unexpected: didn't get exe file name: " << bytes << "\n";
-  }
-  std::string root = just_path(fileName); // strip exe name from end
+    std::string fileName;
+    if (CFStringGetCString(filePath, bytes, MAX_STR, CFStringGetSystemEncoding()))
+    {
+        fileName = bytes;
+    }
+    else
+    {
+        // TODO
+        std::cout << "Unexpected: didn't get exe file name: " << bytes << "\n";
+    }
+    std::string root = just_path(fileName); // strip exe name from end
 
-  if (AmIBundled())
-  {
+    if (AmIBundled())
+    {
 #ifdef BUNDLE_CHECK_DEBUG
-std::cout << "This really is an app bundle.\n";
+        std::cout << "This really is an app bundle.\n";
 #endif
-  }
-  else
-  {
+    }
+    else
+    {
 #ifdef BUNDLE_CHECK_DEBUG
-std::cout << "This  is not an app bundle.\n";
+        std::cout << "This  is not an app bundle.\n";
 #endif
-  }
+    }
 
 #ifdef PROCESS_DIR_DEBUG
-std::cout << "GetProcessDir() result: " << root.c_str() << "\n";
+    std::cout << "GetProcessDir() result: " << root.c_str() << "\n";
 #endif
 
-  return root; 
+    return root;
 }
 #endif // MACOSX
+return {};
+}
 
 std::string get_data_dir()
 {
