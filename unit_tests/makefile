@@ -12,7 +12,8 @@ CC=clang++
 WARNINGS=-Wall -Wextra -Werror -Wno-deprecated-declarations
 
 INCLUDES=\
-  -I..
+  -I.. \
+  -I../../lo-res
 
 CFLAGS=-c $(WARNINGS) $(INCLUDES) -std=c++2a -DMACOSX
 
