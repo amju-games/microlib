@@ -1,7 +1,7 @@
 // "microlib" minimal C++ game utility library
 // (c) Copyright 2017-2022 Juliet Colman
 
-#define STATE_DEBUG
+//#define STATE_DEBUG
 
 #ifdef STATE_DEBUG
 #include <iostream>
