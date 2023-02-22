@@ -1,4 +1,4 @@
-#define CONFIG_FILE_DEBUG
+//#define CONFIG_FILE_DEBUG
 
 #ifdef CONFIG_FILE_DEBUG
 #include <cassert>
@@ -38,7 +38,9 @@ std::cout << "Line " << line_num << ": " << line << "\n";
     strings s = split(stripped_comment[0], '=');
     if (s.size() != 2)
     {
+#ifdef CONFIG_FILE_DEBUG
       std::cout << "Bad line " << line_num << " in \"" << filename << "\"\n";
+#endif
       return false;
     }
     m_map[s[0]] = s[1];
