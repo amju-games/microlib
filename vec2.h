@@ -28,6 +28,13 @@ struct vec2
     return *this;
   }
 
+  vec2& operator-=(const vec2& v)
+  {
+    x -= v.x;
+    y -= v.y;
+    return *this;
+  }
+
   vec2& operator*=(float f)
   {
     x *= f;
