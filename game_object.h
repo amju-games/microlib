@@ -45,10 +45,9 @@ protected:
   vec2 m_acc;
   vec2 m_size;
 
+private:
   bool m_is_updatable = true;
-
   bool m_is_collidable = false;
-
   bool m_is_visible = true;
 };
 
