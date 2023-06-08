@@ -3,7 +3,7 @@
 
 #pragma once
 
-//#define RES_MANAGER_DEBUG
+#define RES_MANAGER_DEBUG
 
 #ifdef RES_MANAGER_DEBUG
 #include <iostream>
@@ -13,6 +13,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include "directory.h"
 
 // Interface for reload function
 class resource_manager_base
@@ -29,6 +30,8 @@ class resource_manager : public resource_manager_base
 {
 public:
   // Loader func: the default version calls load() on the given resource.
+  // The first param is the resource.
+  // The second param is the filename, and the data directory is prepended.
   // For resource types with no load function (e.g. strings), you can specify a 
   //  custom loader when creating the resource manager.
   using loader_func = std::function<bool(std::shared_ptr<T>, const std::string&)>;
@@ -88,7 +91,7 @@ private:
 public:
   static bool default_loader(std::shared_ptr<T> res, const std::string& filename)
   {
-    return res->load(filename); 
+    return res->load(get_data_dir() + filename); 
   }
 
   static std::shared_ptr<T> default_creator()
