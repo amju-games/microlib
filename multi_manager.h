@@ -26,11 +26,20 @@ public:
     auto it = m_map.find(extension);
     if (it == m_map.end())
     {
+std::cout << "No resource manager for " << extension << " found!\n";
       return nullptr;
     }
     else
     {
-      const resource_manager<T>* rm = dynamic_cast<resource_manager<T>*>(it->second.get());
+      auto* manager = it->second.get(); 
+      const resource_manager<T>* rm = dynamic_cast<resource_manager<T>*>(manager);
+
+      if (!rm)
+      {
+std::cout << "There is a resource manager for " << extension << " but the expected type is not " << typeid(T).name() << "\n";
+        return nullptr;
+      }
+
       return rm->get(filename);
     }
   }
