@@ -6,6 +6,8 @@
 #include <vector>
 #include "vec2.h"
 
+class file;
+
 class game_object
 {
 public:
@@ -16,6 +18,8 @@ public:
   int get_id() const { return m_id; }
 
   virtual void update(float dt);
+
+  virtual bool load(file&) { return true; }
 
   void set_pos(const vec2&);
   void set_vel(const vec2&);
