@@ -2,7 +2,7 @@
 
 #include <string>
 #include <unordered_map>
-#include "colour.h"
+//#include "colour.h"
 #include "vec2.h"
 
 class config_file
@@ -15,7 +15,7 @@ public:
   virtual int get_int(const std::string& key) = 0;
   virtual float get_float(const std::string& key) = 0;
   virtual vec2 get_vec2(const std::string& key) = 0;
-  virtual f_colour get_f_colour(const std::string& key) = 0;
+  //virtual f_colour get_f_colour(const std::string& key) = 0;
 };
 
 class text_config_file : public config_file
@@ -27,7 +27,7 @@ public:
   int get_int(const std::string& key) override; 
   float get_float(const std::string& key) override; 
   vec2 get_vec2(const std::string& key) override;
-  f_colour get_f_colour(const std::string& key) override; 
+  //f_colour get_f_colour(const std::string& key) override; 
 
 private:
   std::string m_filename;
