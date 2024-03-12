@@ -52,7 +52,6 @@ all: $(TARGET) $(TEST_TARGET)
 
 $(TARGET): $(OBJS)
 	ar rcs $@ $^
-	####$(CXX) $(LDFLAGS) $(CXXFLAGS) -o $@ $^
 
 $(TEST_TARGET): $(TEST_OBJS) $(filter-out $(OBJDIR)/main.o,$(OBJS))
 	$(CXX) $(LDFLAGS) $(CXXFLAGS) -o $@ $^
