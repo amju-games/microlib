@@ -9,7 +9,7 @@ OBJDIR := $(BUILDDIR)/obj
 DEPDIR := $(BUILDDIR)/dep
 
 # Target executable name
-TARGET := libmicro.a
+TARGET := $(BUILDDIR)/libmicro.a
 TEST_EXE := microlib_tests_exe
 TEST_TARGET := $(TESTDIR)/$(TEST_EXE)
 
