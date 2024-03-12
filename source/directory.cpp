@@ -112,6 +112,10 @@ return {};
 
 std::string get_data_dir()
 {
+#ifdef RASPBERRY_PI
+  return "./";
+#endif
+
 #ifdef WIN32
   std::string dataDir = GetProcessDir();
   dataDir += "/Data/";
